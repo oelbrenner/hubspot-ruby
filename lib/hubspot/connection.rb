@@ -14,6 +14,9 @@ module Hubspot
         no_parse = opts[:params].delete(:no_parse) { false }
 
         url = generate_url(path, opts[:params])
+        puts "posting:"
+        puts url
+        puts opts[:body].to_json 
         response = post(
           url,
           body: opts[:body].to_json,
@@ -22,7 +25,6 @@ module Hubspot
           read_timeout: read_timeout(opts),
           open_timeout: open_timeout(opts)
         )
-
         log_request_and_response url, response, opts[:body]
         raise(Hubspot::RequestError.new(response)) unless response.success?
 
